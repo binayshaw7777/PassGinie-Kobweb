@@ -1,5 +1,3 @@
-import java.security.SecureRandom
-
 fun passGenerator(
     passwordLength: Int,
     shouldIncludeUppercase: Boolean,
@@ -10,20 +8,24 @@ fun passGenerator(
     val uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     val lowercaseLetters = "abcdefghijklmnopqrstuvwxyz"
     val numbers = "0123456789"
-    val symbols = "!@#$%^&*()_+-=[]{}|;':\"<>,.?/~"
-
-    val paramsAreFalse = shouldIncludeLowercase.not() && shouldIncludeUppercase.not() && shouldIncludeNumbers.not()
-
-    val allowedChars = mutableListOf<Char>()
-    if (shouldIncludeUppercase) allowedChars.addAll(uppercaseLetters.toList())
-    if (shouldIncludeLowercase || paramsAreFalse) allowedChars.addAll(lowercaseLetters.toList())
-    if (shouldIncludeNumbers) allowedChars.addAll(numbers.toList())
-    if (shouldIncludeSymbols) allowedChars.addAll(symbols.toList())
-
-    val random = SecureRandom()
-    val password = StringBuilder(passwordLength)
-    repeat(passwordLength) {
-        password.append(allowedChars[random.nextInt(allowedChars.size)])
+    val symbols = "!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?"
+    var allCharacters: String = buildString {
+        if (shouldIncludeUppercase) append(uppercaseLetters)
+        if (shouldIncludeLowercase) append(lowercaseLetters)
+        if (shouldIncludeNumbers) append(numbers)
+        if (shouldIncludeSymbols) append(symbols)
     }
-    return password.toString()
+
+    if (allCharacters.isEmpty()) {
+        allCharacters += lowercaseLetters
+    }
+
+    val password = buildString {
+        repeat(passwordLength) {
+            val randomIndex = (0..allCharacters.length - 1).random()
+            append(allCharacters[randomIndex])
+        }
+    }
+
+    return password
 }
