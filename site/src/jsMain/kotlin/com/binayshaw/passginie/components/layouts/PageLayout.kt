@@ -12,6 +12,8 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import com.binayshaw.passginie.components.sections.Footer
 import com.binayshaw.passginie.components.sections.NavHeader
+import com.varabyte.kobweb.compose.foundation.layout.Arrangement
+import com.varabyte.kobweb.silk.components.graphics.Image
 
 @Composable
 fun PageLayout(title: String, content: @Composable () -> Unit) {
@@ -29,15 +31,25 @@ fun PageLayout(title: String, content: @Composable () -> Unit) {
             // pushed further down if the first row grows beyond the page.
             .gridTemplateRows { size(1.fr); size(minContent) }
     ) {
+        BackgroundGradientImage()
         Column(
             modifier = Modifier.fillMaxSize().textAlign(TextAlign.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            NavHeader()
+//            NavHeader()
             H1 { Text(title) }
             content()
         }
         // Associate the footer with the row that will get pushed off the bottom of the page if it can't fit.
-        Footer(Modifier.align(Alignment.Center).gridRow(2, 3))
+//        Footer(Modifier.align(Alignment.Center).gridRow(2, 3))
     }
+}
+
+@Composable
+fun BackgroundGradientImage() {
+    Image(
+        modifier = Modifier.fillMaxSize(),
+        src = "images/Background.png"
+    )
 }
