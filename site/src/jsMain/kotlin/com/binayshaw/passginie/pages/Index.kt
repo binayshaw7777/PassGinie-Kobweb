@@ -3,9 +3,26 @@ package com.binayshaw.passginie.pages
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
+import com.varabyte.kobweb.compose.css.CSSBackground
+import com.varabyte.kobweb.compose.css.CaretColor
+import com.varabyte.kobweb.compose.css.functions.LinearGradient
+import com.varabyte.kobweb.compose.css.functions.linearGradient
+import com.varabyte.kobweb.compose.css.functions.opacity
+import com.varabyte.kobweb.compose.css.functions.toImage
+import com.varabyte.kobweb.compose.css.toBackgroundImage
+import com.varabyte.kobweb.compose.foundation.layout.Box
+import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.foundation.layout.Spacer
 import com.varabyte.kobweb.compose.ui.Alignment
+import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.forms.Button
+import com.varabyte.kobweb.silk.components.style.ComponentStyle
+import com.varabyte.kobweb.silk.components.style.base
+import com.varabyte.kobweb.silk.components.style.toModifier
+import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.CheckboxInput
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
@@ -14,7 +31,7 @@ import passGenerator
 @Page
 @Composable
 fun HomePage() {
-    PageLayout("PassGinie") {
+    PageLayout(null) {
         val generatedPassword = remember {
             mutableStateOf("Fd9)4y3g")
         }
@@ -34,89 +51,144 @@ fun HomePage() {
             mutableStateOf(false)
         }
         P()
-        Text("Password length: ${passwordLength.value}")
-        P()
-        Row {
-            Button(onClick = {
-                if (passwordLength.value > 4) {
-                    passwordLength.value -= 1
-                }
-            }) {
-                Text("-")
-            }
-
-            Button(onClick = {
-                if (passwordLength.value < 15) {
-                    passwordLength.value += 1
-                }
-            }) {
-                Text("+")
-            }
-        }
-        P()
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            CheckboxInput(
-                checked = shouldIncludeUppercase.value,
-                attrs = {
-                    onClick {
-                        shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
-                    }
-                }
-            )
-            Text("Include Uppercase")
-        }
-        P()
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            CheckboxInput(
-                checked = shouldIncludeLowercase.value,
-                attrs = {
-                    onClick {
-                        shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
-                    }
-                }
-            )
-            Text("Include Lowercase")
-        }
-        P()
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            CheckboxInput(
-                checked = shouldIncludeNumbers.value,
-                attrs = {
-                    onClick {
-                        shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
-                    }
-                }
-            )
-            Text("Include Numbers")
-        }
-        P()
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            CheckboxInput(
-                checked = shouldIncludeSymbols.value,
-                attrs = {
-                    onClick {
-                        shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
-                    }
-                }
-            )
-            Text("Include Symbols")
-        }
-
-        P()
-        Button(
-            onClick = {
-                generatedPassword.value = passGenerator(
-                    passwordLength.value,
-                    shouldIncludeUppercase.value,
-                    shouldIncludeLowercase.value,
-                    shouldIncludeNumbers.value,
-                    shouldIncludeSymbols.value
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(50.percent)
+                .fillMaxHeight(50.percent)
+                .borderRadius(2.percent)
+                .border(
+                    width = 2.px,
+                    style = LineStyle.Solid,
+                    color = Color.gray
                 )
-            }
+                .boxShadow(
+                    10.px,
+                    15.px,
+                    30.px,
+                    20.px,
+                    rgba(0, 0, 0, 0.2)
+                )
         ) {
-            Text("Generate")
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer()
+                Text("Password length: ${passwordLength.value}")
+                Spacer()
+                Row {
+                    Button(onClick = {
+                        if (passwordLength.value > 4) {
+                            passwordLength.value -= 1
+                        }
+                    }) {
+                        Text("-")
+                    }
+
+                    Button(onClick = {
+                        if (passwordLength.value < 15) {
+                            passwordLength.value += 1
+                        }
+                    }) {
+                        Text("+")
+                    }
+                }
+                Spacer()
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CheckboxInput(
+                        checked = shouldIncludeUppercase.value,
+                        attrs = {
+                            onClick {
+                                shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
+                            }
+                        }
+                    )
+                    Text("Include Uppercase")
+                }
+                Spacer()
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CheckboxInput(
+                        checked = shouldIncludeLowercase.value,
+                        attrs = {
+                            onClick {
+                                shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
+                            }
+                        }
+                    )
+                    Text("Include Lowercase")
+                }
+                Spacer()
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CheckboxInput(
+                        checked = shouldIncludeNumbers.value,
+                        attrs = {
+                            onClick {
+                                shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
+                            }
+                        }
+                    )
+                    Text("Include Numbers")
+                }
+                Spacer()
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CheckboxInput(
+                        checked = shouldIncludeSymbols.value,
+                        attrs = {
+                            onClick {
+                                shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
+                            }
+                        }
+                    )
+                    Text("Include Symbols")
+                }
+
+                Spacer()
+                Button(
+                    onClick = {
+                        generatedPassword.value = passGenerator(
+                            passwordLength.value,
+                            shouldIncludeUppercase.value,
+                            shouldIncludeLowercase.value,
+                            shouldIncludeNumbers.value,
+                            shouldIncludeSymbols.value
+                        )
+                    }
+                ) {
+                    Text("Generate")
+                }
+                Spacer()
+                Text("Your password is: ${generatedPassword.value}")
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.white)
+                    .opacity(0.01)
+                    .borderRadius(2.percent)
+                    .zIndex(-1)
+            )
         }
-        P()
-        Text("Your password is: ${generatedPassword.value}")
     }
+
+}
+
+val ModuleBorderWrapStyle by ComponentStyle.base {
+    Modifier
+        .maxWidth(250.px)
+        .padding(3.px)
+        .position(Position.Relative)
+        .background(
+            CSSBackground(image = linearGradient(LinearGradient.Direction.ToRight, Color.white, Color.lightgray).toImage())
+        )
+}
+
+val GradientBorderStyle by ComponentStyle.base {
+    Modifier
+        .border(1.px, LineStyle.Solid, Color.transparent)
+        .background(
+            CSSBackground(
+                image = linearGradient(45.deg, Color.white, Color.transparent).toImage()
+            )
+        )
+        .size(200.px)
 }

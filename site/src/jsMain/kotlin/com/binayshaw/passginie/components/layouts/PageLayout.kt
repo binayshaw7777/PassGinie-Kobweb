@@ -16,9 +16,12 @@ import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.silk.components.graphics.Image
 
 @Composable
-fun PageLayout(title: String, content: @Composable () -> Unit) {
+fun PageLayout(title: String?, content: @Composable () -> Unit) {
     LaunchedEffect(title) {
-        document.title = title
+        title?.let {
+            document.title = it
+        }
+
     }
 
     Box(
@@ -38,7 +41,9 @@ fun PageLayout(title: String, content: @Composable () -> Unit) {
             verticalArrangement = Arrangement.Center
         ) {
 //            NavHeader()
-            H1 { Text(title) }
+            title?.let {
+                H1 { Text(it) }
+            }
             content()
         }
         // Associate the footer with the row that will get pushed off the bottom of the page if it can't fit.

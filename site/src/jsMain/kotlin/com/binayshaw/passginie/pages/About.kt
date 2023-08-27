@@ -10,7 +10,7 @@ import org.jetbrains.compose.web.dom.Text
 @Page
 @Composable
 fun AboutPage() {
-    PageLayout("ABOUT") {
+    PageLayout(null) {
         Text("This is a skeleton app used to showcase a basic site made using Kobweb")
         P()
         Link("/", "Go Home")
