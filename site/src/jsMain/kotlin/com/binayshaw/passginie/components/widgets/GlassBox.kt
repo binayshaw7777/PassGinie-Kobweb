@@ -33,6 +33,7 @@ fun GlassBox(modifier: Modifier, content: @Composable BoxScope.() -> Unit) {
                 .styleModifier {
                     mixBlendMode(MixBlendMode.Overlay)
                 }
+                .background(rgba(255, 255, 255, 0.08))
                 .boxShadow(6.px, 4.px, 19.px, 0.px, rgba(0, 0, 0, 0.11f))
         )
     }
