@@ -8,6 +8,7 @@ import com.varabyte.kobweb.compose.css.functions.LinearGradient
 import com.varabyte.kobweb.compose.css.functions.linearGradient
 import com.varabyte.kobweb.compose.css.functions.toImage
 import com.varabyte.kobweb.compose.foundation.layout.Box
+import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
@@ -17,7 +18,7 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
 
 @Composable
-fun GlassBox(modifier: Modifier, content: @Composable () -> Unit) {
+fun GlassBox(modifier: Modifier, content: @Composable BoxScope.() -> Unit) {
     Box(modifier = modifier
         .fillMaxWidth(50.percent)
         .backgroundClip(BackgroundClip.BorderBox)
@@ -26,7 +27,8 @@ fun GlassBox(modifier: Modifier, content: @Composable () -> Unit) {
         .backgroundBlendMode(MixBlendMode.Overlay)
         .boxShadow(6.px, 4.px, 19.px, 0.px, rgba(0, 0, 0, 0.11f))
         .background(
-            CSSBackground(image = linearGradient(LinearGradient.Direction.ToRight, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.40)).toImage()))
+            CSSBackground(image = linearGradient(
+                LinearGradient.Direction.ToRight, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.40)).toImage()))
         .padding(2.px),
         contentAlignment = Alignment.Center
     ) {

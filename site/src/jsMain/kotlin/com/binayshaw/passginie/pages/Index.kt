@@ -4,9 +4,7 @@ import androidx.compose.runtime.*
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
 import com.binayshaw.passginie.components.widgets.GlassBox
-import com.varabyte.kobweb.compose.css.CSSBackground
-import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.ScrollBehavior
+import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.css.functions.LinearGradient
 import com.varabyte.kobweb.compose.css.functions.linearGradient
 import com.varabyte.kobweb.compose.css.functions.toImage
@@ -15,6 +13,7 @@ import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
 import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
@@ -89,10 +88,9 @@ fun HomePage() {
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(70.percent)
+                        .fillMaxWidth(85.percent)
                         .fillMaxHeight(50.percent)
                         .zIndex(1)
-                        .background(rgba(255, 255, 255, 0.1))
                         .borderRadius(10.px)
                         .margin(20.px)
                 ) {
@@ -129,11 +127,15 @@ fun HomePage() {
                 }
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.white)
-                        .opacity(0.01)
-                        .borderRadius(2.percent)
-                        .zIndex(-1)
+                        .fillMaxWidth(85.percent)
+                        .fillMaxHeight(50.percent)
+                        .styleModifier {
+                            mixBlendMode(MixBlendMode.Overlay)
+                        }
+                        .zIndex(1)
+                        .background(rgba(255, 255, 255, 0.1))
+                        .borderRadius(10.px)
+                        .margin(20.px)
                 )
             }
             Tooltip(
@@ -236,14 +238,6 @@ fun HomePage() {
                     }
                     Spacer()
                 }
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.white)
-                        .opacity(0.01)
-                        .borderRadius(2.percent)
-                        .zIndex(-1)
-                )
             }
         }
     }
