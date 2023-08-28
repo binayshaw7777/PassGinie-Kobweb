@@ -132,8 +132,7 @@ fun HomePage() {
                         .styleModifier {
                             mixBlendMode(MixBlendMode.Overlay)
                         }
-                        .zIndex(1)
-                        .background(rgba(255, 255, 255, 0.1))
+                        .background(rgba(255, 255, 255, 0.25))
                         .borderRadius(10.px)
                         .margin(20.px)
                 )
