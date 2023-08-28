@@ -16,6 +16,8 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
+import com.varabyte.kobweb.silk.components.layout.SimpleGrid
+import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.overlay.manual
@@ -33,6 +35,10 @@ import passGenerator
 @Composable
 fun HomePage() {
     PageLayout(null) {
+
+        /**
+         * Variables Declaration
+         */
         val generatedPassword = remember {
             mutableStateOf(
                 passGenerator(
@@ -75,6 +81,10 @@ fun HomePage() {
             regeneratePassword.value = false
         }
 
+        /**
+         * UI Logic
+         */
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -102,7 +112,7 @@ fun HomePage() {
                     ) {
                         P(attrs = {
                             style {
-                                fontWeight(FontWeight.Bold)
+                                fontSize(24.px)
                             }
                         }) {
                             Text(generatedPassword.value)
@@ -138,7 +148,7 @@ fun HomePage() {
                         .styleModifier {
                             mixBlendMode(MixBlendMode.Overlay)
                         }
-                        .background(rgba(255, 255, 255, 0.25))
+                        .background(rgba(255, 255, 255, 0.20))
                         .borderRadius(10.px)
                         .margin(20.px)
                 )
@@ -153,16 +163,44 @@ fun HomePage() {
                 hasArrow = false,
                 keepOpenStrategy = KeepPopupOpenStrategy.manual(showCopedPasswordToolTip.value)
             )
+
             P()
+
             GlassBox(modifier = Modifier.fillMaxHeight(50.percent)) {
+
                 Column(
                     modifier = Modifier.fillMaxSize().zIndex(1),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceAround
                 ) {
                     Spacer()
-                    Text("Password length: ${passwordLength.value}")
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(80.percent),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        P(attrs = {
+                            style {
+                                padding(5.px)
+                                fontSize(20.px)
+                            }
+                        }) {
+                            Text("Password length:")
+                        }
+                        P(attrs = {
+                            style {
+                                padding(5.px)
+                                fontSize(20.px)
+                                fontWeight(FontWeight.Bold)
+                            }
+                        }) {
+                            Text(passwordLength.value.toString())
+                        }
+                    }
+
+
                     Spacer()
+
                     Row(
                         modifier = Modifier.fillMaxWidth(70.percent),
                         horizontalArrangement = Arrangement.SpaceAround
@@ -188,58 +226,120 @@ fun HomePage() {
                     }
                     Spacer()
                     Spacer()
-                    Text("Include")
-                    Spacer()
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        CheckboxInput(
-                            checked = shouldIncludeUppercase.value,
-                            attrs = {
-                                onClick {
-                                    shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
-                                    regeneratePassword.value = true
-                                }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(80.percent),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        P(attrs = {
+                            style {
+                                fontSize(20.px)
                             }
-                        )
-                        Text("Include Uppercase")
+                        }) {
+                            Text("Include")
+                        }
                     }
-                    Spacer()
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        CheckboxInput(
-                            checked = shouldIncludeLowercase.value,
-                            attrs = {
-                                onClick {
-                                    shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
-                                    regeneratePassword.value = true
+
+                    SimpleGrid(
+                        numColumns(1, sm = 1, md = 2, lg = 2, xl = 2),
+                        modifier = Modifier.fillMaxWidth(90.percent)
+                    ) {
+
+                        Column(modifier = Modifier.padding(0.px, 15.px)) {
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(65.percent)
+                                    .onClick {
+                                        shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
+                                        regeneratePassword.value = true
+                                    },
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceAround
+                            ) {
+                                CheckboxInput(
+                                    checked = shouldIncludeUppercase.value,
+                                    attrs = {
+                                        onClick {
+                                            shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
+                                            regeneratePassword.value = true
+                                        }
+                                    }
+                                )
+                                P(attrs = { style { fontSize(20.px) } }) {
+                                    Text("Uppercase")
                                 }
                             }
-                        )
-                        Text("Include Lowercase")
-                    }
-                    Spacer()
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        CheckboxInput(
-                            checked = shouldIncludeNumbers.value,
-                            attrs = {
-                                onClick {
-                                    shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
-                                    regeneratePassword.value = true
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(65.percent)
+                                    .onClick {
+                                        shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
+                                        regeneratePassword.value = true
+                                    },
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceAround
+                            ) {
+                                CheckboxInput(
+                                    checked = shouldIncludeLowercase.value,
+                                    attrs = {
+                                        onClick {
+                                            shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
+                                            regeneratePassword.value = true
+                                        }
+                                    }
+                                )
+                                P(attrs = { style { fontSize(20.px) } }) {
+                                    Text("Lowercase")
                                 }
                             }
-                        )
-                        Text("Include Numbers")
-                    }
-                    Spacer()
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        CheckboxInput(
-                            checked = shouldIncludeSymbols.value,
-                            attrs = {
-                                onClick {
-                                    shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
-                                    regeneratePassword.value = true
+                        }
+                        Column(modifier = Modifier.padding(0.px, 15.px)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(65.percent)
+                                    .onClick {
+                                        shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
+                                        regeneratePassword.value = true
+                                    },
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceAround
+                            ) {
+                                CheckboxInput(
+                                    checked = shouldIncludeNumbers.value,
+                                    attrs = {
+                                        onClick {
+                                            shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
+                                            regeneratePassword.value = true
+                                        }
+                                    }
+                                )
+                                P(attrs = { style { fontSize(20.px) } }) {
+                                    Text("Numbers")
                                 }
                             }
-                        )
-                        Text("Include Symbols")
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(65.percent)
+                                    .onClick {
+                                        shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
+                                        regeneratePassword.value = true
+                                    },
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceAround
+                            ) {
+                                CheckboxInput(
+                                    checked = shouldIncludeSymbols.value,
+                                    attrs = {
+                                        onClick {
+                                            shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
+                                            regeneratePassword.value = true
+                                        }
+                                    }
+                                )
+                                P(attrs = { style { fontSize(20.px) } }) {
+                                    Text("Symbols")
+                                }
+                            }
+                        }
                     }
                     Spacer()
                 }
