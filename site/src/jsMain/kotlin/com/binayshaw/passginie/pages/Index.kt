@@ -3,25 +3,26 @@ package com.binayshaw.passginie.pages
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
+import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.CSSBackground
-import com.varabyte.kobweb.compose.css.CaretColor
+import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.functions.LinearGradient
 import com.varabyte.kobweb.compose.css.functions.linearGradient
-import com.varabyte.kobweb.compose.css.functions.opacity
 import com.varabyte.kobweb.compose.css.functions.toImage
-import com.varabyte.kobweb.compose.css.toBackgroundImage
-import com.varabyte.kobweb.compose.foundation.layout.Box
-import com.varabyte.kobweb.compose.foundation.layout.Column
-import com.varabyte.kobweb.compose.foundation.layout.Row
-import com.varabyte.kobweb.compose.foundation.layout.Spacer
+import com.varabyte.kobweb.compose.dom.ElementTarget
+import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.forms.Button
+import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
+import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
+import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
+import com.varabyte.kobweb.silk.components.overlay.Tooltip
+import com.varabyte.kobweb.silk.components.overlay.manual
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.toModifier
+import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.CheckboxInput
 import org.jetbrains.compose.web.dom.P
@@ -50,127 +51,190 @@ fun HomePage() {
         val shouldIncludeSymbols = remember {
             mutableStateOf(false)
         }
-        P()
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(50.percent)
-                .fillMaxHeight(50.percent)
-                .borderRadius(2.percent)
-                .border(
-                    width = 2.px,
-                    style = LineStyle.Solid,
-                    color = Color.gray
-                )
-                .boxShadow(
-                    10.px,
-                    15.px,
-                    30.px,
-                    20.px,
-                    rgba(0, 0, 0, 0.2)
-                )
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer()
-                Text("Password length: ${passwordLength.value}")
-                Spacer()
-                Row {
-                    Button(onClick = {
-                        if (passwordLength.value > 4) {
-                            passwordLength.value -= 1
-                        }
-                    }) {
-                        Text("-")
-                    }
+        val regeneratePassword = remember {
+            mutableStateOf(false)
+        }
+        val showCopedPasswordToolTip = remember {
+            mutableStateOf(false)
+        }
 
-                    Button(onClick = {
-                        if (passwordLength.value < 15) {
-                            passwordLength.value += 1
-                        }
-                    }) {
-                        Text("+")
-                    }
-                }
-                Spacer()
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CheckboxInput(
-                        checked = shouldIncludeUppercase.value,
-                        attrs = {
-                            onClick {
-                                shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
-                            }
-                        }
-                    )
-                    Text("Include Uppercase")
-                }
-                Spacer()
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CheckboxInput(
-                        checked = shouldIncludeLowercase.value,
-                        attrs = {
-                            onClick {
-                                shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
-                            }
-                        }
-                    )
-                    Text("Include Lowercase")
-                }
-                Spacer()
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CheckboxInput(
-                        checked = shouldIncludeNumbers.value,
-                        attrs = {
-                            onClick {
-                                shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
-                            }
-                        }
-                    )
-                    Text("Include Numbers")
-                }
-                Spacer()
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CheckboxInput(
-                        checked = shouldIncludeSymbols.value,
-                        attrs = {
-                            onClick {
-                                shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
-                            }
-                        }
-                    )
-                    Text("Include Symbols")
-                }
-
-                Spacer()
-                Button(
-                    onClick = {
-                        generatedPassword.value = passGenerator(
-                            passwordLength.value,
-                            shouldIncludeUppercase.value,
-                            shouldIncludeLowercase.value,
-                            shouldIncludeNumbers.value,
-                            shouldIncludeSymbols.value
-                        )
-                    }
-                ) {
-                    Text("Generate")
-                }
-                Spacer()
-                Text("Your password is: ${generatedPassword.value}")
-            }
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.white)
-                    .opacity(0.01)
-                    .borderRadius(2.percent)
-                    .zIndex(-1)
+        if (regeneratePassword.value) {
+            generatedPassword.value = passGenerator(
+                passwordLength.value,
+                shouldIncludeUppercase.value,
+                shouldIncludeLowercase.value,
+                shouldIncludeNumbers.value,
+                shouldIncludeSymbols.value
             )
+            regeneratePassword.value = false
+        }
+
+        Column(
+            modifier = Modifier.fillMaxSize().padding(20.px),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            GlassBox(modifier = Modifier.fillMaxHeight(20.percent)) {
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(70.percent)
+                        .fillMaxHeight(50.percent)
+                        .zIndex(1)
+                        .background(rgba(255, 255, 255, 0.1))
+                        .borderRadius(10.px)
+                        .margin(20.px)
+                ) {
+
+                    Row(
+                        modifier = Modifier.fillMaxSize().fontWeight(FontWeight.Bold).padding(20.px),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(generatedPassword.value)
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(10.percent),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            FaCopy(modifier = Modifier.onClick {
+                                window.navigator.clipboard.writeText(generatedPassword.value)
+                                showCopedPasswordToolTip.value = true
+                            })
+                            Spacer()
+
+                            FaArrowRotateLeft(modifier = Modifier.onClick {
+                                regeneratePassword.value = true
+                            })
+                            if (showCopedPasswordToolTip.value) {
+                                window.setTimeout({
+                                    showCopedPasswordToolTip.value = false }, 2000)
+                            }
+                        }
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.white)
+                        .opacity(0.01)
+                        .borderRadius(2.percent)
+                        .zIndex(-1)
+                )
+            }
+            Tooltip(
+                ElementTarget.PreviousSibling,
+                "Copied!",
+                modifier = Modifier.opacity(
+                    if (showCopedPasswordToolTip.value) 100.percent
+                    else 0.percent
+                ),
+                hasArrow = false,
+                keepOpenStrategy = KeepPopupOpenStrategy.manual(showCopedPasswordToolTip.value)
+            )
+            P()
+            GlassBox(modifier = Modifier.fillMaxHeight(50.percent)) {
+                Column(
+                    modifier = Modifier.fillMaxSize().zIndex(1),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceAround
+                ) {
+                    Spacer()
+                    Text("Password length: ${passwordLength.value}")
+                    Spacer()
+                    Row(
+                        modifier = Modifier.fillMaxWidth(25.percent),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Button(onClick = {
+                            if (passwordLength.value > 4) {
+                                passwordLength.value -= 1
+                                regeneratePassword.value = true
+                            }
+                        }) {
+                            Text("-")
+                        }
+
+                        Button(onClick = {
+                            if (passwordLength.value < 15) {
+                                passwordLength.value += 1
+                                regeneratePassword.value = true
+                            }
+                        }) {
+                            Text("+")
+                        }
+                    }
+                    Spacer()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CheckboxInput(
+                            checked = shouldIncludeUppercase.value,
+                            attrs = {
+                                onClick {
+                                    shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
+                                    regeneratePassword.value = true
+                                }
+                            }
+                        )
+                        Text("Include Uppercase")
+                    }
+                    Spacer()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CheckboxInput(
+                            checked = shouldIncludeLowercase.value,
+                            attrs = {
+                                onClick {
+                                    shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
+                                    regeneratePassword.value = true
+                                }
+                            }
+                        )
+                        Text("Include Lowercase")
+                    }
+                    Spacer()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CheckboxInput(
+                            checked = shouldIncludeNumbers.value,
+                            attrs = {
+                                onClick {
+                                    shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
+                                    regeneratePassword.value = true
+                                }
+                            }
+                        )
+                        Text("Include Numbers")
+                    }
+                    Spacer()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CheckboxInput(
+                            checked = shouldIncludeSymbols.value,
+                            attrs = {
+                                onClick {
+                                    shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
+                                    regeneratePassword.value = true
+                                }
+                            }
+                        )
+                        Text("Include Symbols")
+                    }
+                    Spacer()
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.white)
+                        .opacity(0.01)
+                        .borderRadius(2.percent)
+                        .zIndex(-1)
+                )
+            }
         }
     }
 
 }
+
 
 val ModuleBorderWrapStyle by ComponentStyle.base {
     Modifier
@@ -178,7 +242,13 @@ val ModuleBorderWrapStyle by ComponentStyle.base {
         .padding(3.px)
         .position(Position.Relative)
         .background(
-            CSSBackground(image = linearGradient(LinearGradient.Direction.ToRight, Color.white, Color.lightgray).toImage())
+            CSSBackground(
+                image = linearGradient(
+                    LinearGradient.Direction.ToRight,
+                    Color.white,
+                    Color.lightgray
+                ).toImage()
+            )
         )
 }
 
