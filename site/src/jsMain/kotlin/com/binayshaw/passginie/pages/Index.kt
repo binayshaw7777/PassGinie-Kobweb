@@ -3,6 +3,7 @@ package com.binayshaw.passginie.pages
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
+import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.CSSBackground
 import com.varabyte.kobweb.compose.css.CaretColor
 import com.varabyte.kobweb.compose.css.functions.LinearGradient
@@ -10,10 +11,7 @@ import com.varabyte.kobweb.compose.css.functions.linearGradient
 import com.varabyte.kobweb.compose.css.functions.opacity
 import com.varabyte.kobweb.compose.css.functions.toImage
 import com.varabyte.kobweb.compose.css.toBackgroundImage
-import com.varabyte.kobweb.compose.foundation.layout.Box
-import com.varabyte.kobweb.compose.foundation.layout.Column
-import com.varabyte.kobweb.compose.foundation.layout.Row
-import com.varabyte.kobweb.compose.foundation.layout.Spacer
+import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
@@ -50,123 +48,127 @@ fun HomePage() {
         val shouldIncludeSymbols = remember {
             mutableStateOf(false)
         }
-        P()
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(50.percent)
-                .fillMaxHeight(50.percent)
-                .borderRadius(2.percent)
-                .border(
-                    width = 2.px,
-                    style = LineStyle.Solid,
-                    color = Color.gray
-                )
-                .boxShadow(
-                    10.px,
-                    15.px,
-                    30.px,
-                    20.px,
-                    rgba(0, 0, 0, 0.2)
-                )
+        Column(
+            modifier = Modifier.fillMaxSize().padding(20.px),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer()
-                Text("Password length: ${passwordLength.value}")
-                Spacer()
-                Row {
-                    Button(onClick = {
-                        if (passwordLength.value > 4) {
-                            passwordLength.value -= 1
-                        }
-                    }) {
-                        Text("-")
-                    }
-
-                    Button(onClick = {
-                        if (passwordLength.value < 15) {
-                            passwordLength.value += 1
-                        }
-                    }) {
-                        Text("+")
-                    }
-                }
-                Spacer()
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CheckboxInput(
-                        checked = shouldIncludeUppercase.value,
-                        attrs = {
-                            onClick {
-                                shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
-                            }
-                        }
-                    )
-                    Text("Include Uppercase")
-                }
-                Spacer()
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CheckboxInput(
-                        checked = shouldIncludeLowercase.value,
-                        attrs = {
-                            onClick {
-                                shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
-                            }
-                        }
-                    )
-                    Text("Include Lowercase")
-                }
-                Spacer()
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CheckboxInput(
-                        checked = shouldIncludeNumbers.value,
-                        attrs = {
-                            onClick {
-                                shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
-                            }
-                        }
-                    )
-                    Text("Include Numbers")
-                }
-                Spacer()
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CheckboxInput(
-                        checked = shouldIncludeSymbols.value,
-                        attrs = {
-                            onClick {
-                                shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
-                            }
-                        }
-                    )
-                    Text("Include Symbols")
-                }
-
-                Spacer()
-                Button(
-                    onClick = {
-                        generatedPassword.value = passGenerator(
-                            passwordLength.value,
-                            shouldIncludeUppercase.value,
-                            shouldIncludeLowercase.value,
-                            shouldIncludeNumbers.value,
-                            shouldIncludeSymbols.value
-                        )
-                    }
+            GlassBox(modifier = Modifier.fillMaxHeight(20.percent)) {
+                Column(
+                    modifier = Modifier.fillMaxSize().zIndex(1),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("Generate")
+                    Button(
+                        onClick = {
+                            generatedPassword.value = passGenerator(
+                                passwordLength.value,
+                                shouldIncludeUppercase.value,
+                                shouldIncludeLowercase.value,
+                                shouldIncludeNumbers.value,
+                                shouldIncludeSymbols.value
+                            )
+                        }
+                    ) {
+                        Text("Generate")
+                    }
+                    Spacer()
+                    Text("Your password is: ${generatedPassword.value}")
                 }
-                Spacer()
-                Text("Your password is: ${generatedPassword.value}")
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.white)
+                        .opacity(0.01)
+                        .borderRadius(2.percent)
+                        .zIndex(-1)
+                )
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.white)
-                    .opacity(0.01)
-                    .borderRadius(2.percent)
-                    .zIndex(-1)
-            )
+            P()
+            GlassBox(modifier = Modifier.fillMaxHeight(50.percent)) {
+                Column(
+                    modifier = Modifier.fillMaxSize().zIndex(1),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceAround
+                ) {
+                    Spacer()
+                    Text("Password length: ${passwordLength.value}")
+                    Spacer()
+                    Row {
+                        Button(onClick = {
+                            if (passwordLength.value > 4) {
+                                passwordLength.value -= 1
+                            }
+                        }) {
+                            Text("-")
+                        }
+
+                        Button(onClick = {
+                            if (passwordLength.value < 15) {
+                                passwordLength.value += 1
+                            }
+                        }) {
+                            Text("+")
+                        }
+                    }
+                    Spacer()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CheckboxInput(
+                            checked = shouldIncludeUppercase.value,
+                            attrs = {
+                                onClick {
+                                    shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
+                                }
+                            }
+                        )
+                        Text("Include Uppercase")
+                    }
+                    Spacer()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CheckboxInput(
+                            checked = shouldIncludeLowercase.value,
+                            attrs = {
+                                onClick {
+                                    shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
+                                }
+                            }
+                        )
+                        Text("Include Lowercase")
+                    }
+                    Spacer()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CheckboxInput(
+                            checked = shouldIncludeNumbers.value,
+                            attrs = {
+                                onClick {
+                                    shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
+                                }
+                            }
+                        )
+                        Text("Include Numbers")
+                    }
+                    Spacer()
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CheckboxInput(
+                            checked = shouldIncludeSymbols.value,
+                            attrs = {
+                                onClick {
+                                    shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
+                                }
+                            }
+                        )
+                        Text("Include Symbols")
+                    }
+                    Spacer()
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.white)
+                        .opacity(0.01)
+                        .borderRadius(2.percent)
+                        .zIndex(-1)
+                )
+            }
         }
     }
 
@@ -178,7 +180,13 @@ val ModuleBorderWrapStyle by ComponentStyle.base {
         .padding(3.px)
         .position(Position.Relative)
         .background(
-            CSSBackground(image = linearGradient(LinearGradient.Direction.ToRight, Color.white, Color.lightgray).toImage())
+            CSSBackground(
+                image = linearGradient(
+                    LinearGradient.Direction.ToRight,
+                    Color.white,
+                    Color.lightgray
+                ).toImage()
+            )
         )
 }
 
