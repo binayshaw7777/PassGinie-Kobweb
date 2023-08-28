@@ -6,6 +6,7 @@ import com.binayshaw.passginie.components.layouts.PageLayout
 import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.CSSBackground
 import com.varabyte.kobweb.compose.css.CaretColor
+import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.functions.LinearGradient
 import com.varabyte.kobweb.compose.css.functions.linearGradient
 import com.varabyte.kobweb.compose.css.functions.opacity
@@ -17,6 +18,8 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.forms.Button
+import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
+import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
@@ -48,31 +51,62 @@ fun HomePage() {
         val shouldIncludeSymbols = remember {
             mutableStateOf(false)
         }
+        val regeneratePassword = remember {
+            mutableStateOf(false)
+        }
+
+        if (regeneratePassword.value) {
+            generatedPassword.value = passGenerator(
+                passwordLength.value,
+                shouldIncludeUppercase.value,
+                shouldIncludeLowercase.value,
+                shouldIncludeNumbers.value,
+                shouldIncludeSymbols.value
+            )
+            regeneratePassword.value = false
+        }
+
         Column(
             modifier = Modifier.fillMaxSize().padding(20.px),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
             GlassBox(modifier = Modifier.fillMaxHeight(20.percent)) {
-                Column(
-                    modifier = Modifier.fillMaxSize().zIndex(1),
-                    horizontalAlignment = Alignment.CenterHorizontally
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(70.percent)
+                        .fillMaxHeight(50.percent)
+                        .zIndex(1)
+                        .background(rgba(255, 255, 255, 0.1))
+                        .borderRadius(10.px)
+                        .margin(20.px)
                 ) {
-                    Button(
-                        onClick = {
-                            generatedPassword.value = passGenerator(
-                                passwordLength.value,
-                                shouldIncludeUppercase.value,
-                                shouldIncludeLowercase.value,
-                                shouldIncludeNumbers.value,
-                                shouldIncludeSymbols.value
-                            )
-                        }
+
+                    Row(
+                        modifier = Modifier.fillMaxSize().fontWeight(FontWeight.Bold),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Generate")
+                        Text(generatedPassword.value)
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(10.percent),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            FaCopy(modifier = Modifier.onClick {
+                                // TODO: Perform Copy to Clipboard onClick
+                            })
+                            Spacer()
+
+                            FaArrowRotateLeft(modifier = Modifier.onClick {
+                                regeneratePassword.value = true
+                            })
+                        }
                     }
-                    Spacer()
-                    Text("Your password is: ${generatedPassword.value}")
                 }
                 Box(
                     modifier = Modifier
@@ -93,10 +127,14 @@ fun HomePage() {
                     Spacer()
                     Text("Password length: ${passwordLength.value}")
                     Spacer()
-                    Row {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(25.percent),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
                         Button(onClick = {
                             if (passwordLength.value > 4) {
                                 passwordLength.value -= 1
+                                regeneratePassword.value = true
                             }
                         }) {
                             Text("-")
@@ -105,6 +143,7 @@ fun HomePage() {
                         Button(onClick = {
                             if (passwordLength.value < 15) {
                                 passwordLength.value += 1
+                                regeneratePassword.value = true
                             }
                         }) {
                             Text("+")
@@ -117,6 +156,7 @@ fun HomePage() {
                             attrs = {
                                 onClick {
                                     shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
+                                    regeneratePassword.value = true
                                 }
                             }
                         )
@@ -129,6 +169,7 @@ fun HomePage() {
                             attrs = {
                                 onClick {
                                     shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
+                                    regeneratePassword.value = true
                                 }
                             }
                         )
@@ -141,6 +182,7 @@ fun HomePage() {
                             attrs = {
                                 onClick {
                                     shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
+                                    regeneratePassword.value = true
                                 }
                             }
                         )
@@ -153,6 +195,7 @@ fun HomePage() {
                             attrs = {
                                 onClick {
                                     shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
+                                    regeneratePassword.value = true
                                 }
                             }
                         )
@@ -173,6 +216,7 @@ fun HomePage() {
     }
 
 }
+
 
 val ModuleBorderWrapStyle by ComponentStyle.base {
     Modifier

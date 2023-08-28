@@ -1,6 +1,8 @@
 package com.binayshaw.passginie.components.layouts
 
 import androidx.compose.runtime.*
+import com.binayshaw.passginie.Utils.Fonts.HELVETICA
+import com.binayshaw.passginie.Utils.Fonts.SANS_SERIF
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -29,6 +31,7 @@ fun PageLayout(title: String?, content: @Composable () -> Unit) {
             .fillMaxWidth()
             .minHeight(100.percent)
             .color(Color.white)
+            .fontFamily(SANS_SERIF)
             // Create a box with two rows: the main content (fills as much space as it can) and the footer (which reserves
             // space at the bottom). "min-content" means the use the height of the row, which we use for the footer.
             // Since this box is set to *at least* 100%, the footer will always appear at least on the bottom but can be
