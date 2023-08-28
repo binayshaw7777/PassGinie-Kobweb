@@ -96,11 +96,17 @@ fun HomePage() {
                 ) {
 
                     Row(
-                        modifier = Modifier.fillMaxSize().fontWeight(FontWeight.Bold).padding(20.px),
+                        modifier = Modifier.fillMaxSize().padding(20.px),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(generatedPassword.value)
+                        P(attrs = {
+                            style {
+                                fontWeight(FontWeight.Bold)
+                            }
+                        }) {
+                            Text(generatedPassword.value)
+                        }
 
                         Row(
                             modifier = Modifier.fillMaxWidth(10.percent),
