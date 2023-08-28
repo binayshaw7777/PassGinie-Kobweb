@@ -2,6 +2,7 @@ package com.binayshaw.passginie.components.layouts
 
 import androidx.compose.runtime.*
 import com.binayshaw.passginie.Utils.Fonts.POPPINS
+import com.binayshaw.passginie.Utils.Res
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -53,6 +54,6 @@ fun PageLayout(title: String?, content: @Composable () -> Unit) {
 fun BackgroundGradientImage() {
     Image(
         modifier = Modifier.fillMaxSize(),
-        src = "images/Background.png"
+        src = Res.Images.BACKGROUND
     )
 }
