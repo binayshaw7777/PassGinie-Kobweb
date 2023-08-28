@@ -177,7 +177,7 @@ fun HomePage() {
                     Spacer()
 
                     Row(
-                        modifier = Modifier.fillMaxWidth(80.percent),
+                        modifier = Modifier.fillMaxWidth(83.percent),
                         horizontalArrangement = Arrangement.Start
                     ) {
                         P(attrs = {
@@ -199,14 +199,20 @@ fun HomePage() {
                         }
                     }
 
-
-                    Spacer()
-
                     Row(
-                        modifier = Modifier.fillMaxWidth(70.percent),
-                        horizontalArrangement = Arrangement.SpaceAround
+                        modifier = Modifier.fillMaxWidth(80.percent),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("-")
+                        P(attrs = {
+                            style {
+                                fontWeight(FontWeight.Bold)
+                                fontSize(18.px)
+                            }
+                        }) {
+                            Text("-")
+                        }
+
                         RangeInput(
                             value = passwordLength.value,
                             min = 4,
@@ -214,7 +220,7 @@ fun HomePage() {
                             step = 1,
                             attrs = {
                                 style {
-                                    minWidth(200.px)
+                                    minWidth(400.px)
                                 }
                                 onInput {
                                     console.log("Slider value is: ${it.value}")
@@ -223,7 +229,14 @@ fun HomePage() {
                                 }
                             }
                         )
-                        Text("+")
+                        P(attrs = {
+                            style {
+                                fontWeight(FontWeight.Bold)
+                                fontSize(18.px)
+                            }
+                        }) {
+                            Text("+")
+                        }
                     }
                     Spacer()
                     Spacer()
