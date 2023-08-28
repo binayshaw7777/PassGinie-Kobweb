@@ -5,24 +5,24 @@ import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
 import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.CSSBackground
-import com.varabyte.kobweb.compose.css.CaretColor
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.functions.LinearGradient
 import com.varabyte.kobweb.compose.css.functions.linearGradient
-import com.varabyte.kobweb.compose.css.functions.opacity
 import com.varabyte.kobweb.compose.css.functions.toImage
-import com.varabyte.kobweb.compose.css.toBackgroundImage
+import com.varabyte.kobweb.compose.dom.ElementTarget
 import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
+import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
+import com.varabyte.kobweb.silk.components.overlay.Tooltip
+import com.varabyte.kobweb.silk.components.overlay.manual
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.toModifier
+import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.CheckboxInput
 import org.jetbrains.compose.web.dom.P
@@ -52,6 +52,9 @@ fun HomePage() {
             mutableStateOf(false)
         }
         val regeneratePassword = remember {
+            mutableStateOf(false)
+        }
+        val showCopedPasswordToolTip = remember {
             mutableStateOf(false)
         }
 
@@ -85,8 +88,8 @@ fun HomePage() {
                 ) {
 
                     Row(
-                        modifier = Modifier.fillMaxSize().fontWeight(FontWeight.Bold),
-                        horizontalArrangement = Arrangement.SpaceAround,
+                        modifier = Modifier.fillMaxSize().fontWeight(FontWeight.Bold).padding(20.px),
+                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(generatedPassword.value)
@@ -98,13 +101,18 @@ fun HomePage() {
                         ) {
 
                             FaCopy(modifier = Modifier.onClick {
-                                // TODO: Perform Copy to Clipboard onClick
+                                window.navigator.clipboard.writeText(generatedPassword.value)
+                                showCopedPasswordToolTip.value = true
                             })
                             Spacer()
 
                             FaArrowRotateLeft(modifier = Modifier.onClick {
                                 regeneratePassword.value = true
                             })
+                            if (showCopedPasswordToolTip.value) {
+                                window.setTimeout({
+                                    showCopedPasswordToolTip.value = false }, 2000)
+                            }
                         }
                     }
                 }
@@ -117,6 +125,16 @@ fun HomePage() {
                         .zIndex(-1)
                 )
             }
+            Tooltip(
+                ElementTarget.PreviousSibling,
+                "Copied!",
+                modifier = Modifier.opacity(
+                    if (showCopedPasswordToolTip.value) 100.percent
+                    else 0.percent
+                ),
+                hasArrow = false,
+                keepOpenStrategy = KeepPopupOpenStrategy.manual(showCopedPasswordToolTip.value)
+            )
             P()
             GlassBox(modifier = Modifier.fillMaxHeight(50.percent)) {
                 Column(
