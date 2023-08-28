@@ -6,6 +6,7 @@ import com.binayshaw.passginie.components.layouts.PageLayout
 import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.CSSBackground
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.ScrollBehavior
 import com.varabyte.kobweb.compose.css.functions.LinearGradient
 import com.varabyte.kobweb.compose.css.functions.linearGradient
 import com.varabyte.kobweb.compose.css.functions.toImage
@@ -14,7 +15,6 @@ import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
 import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
@@ -26,6 +26,7 @@ import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.CheckboxInput
 import org.jetbrains.compose.web.dom.P
+import org.jetbrains.compose.web.dom.RangeInput
 import org.jetbrains.compose.web.dom.Text
 import passGenerator
 
@@ -34,7 +35,13 @@ import passGenerator
 fun HomePage() {
     PageLayout(null) {
         val generatedPassword = remember {
-            mutableStateOf("Fd9)4y3g")
+            mutableStateOf(
+                passGenerator(
+                    8, false,
+                    false, false,
+                    false
+                )
+            )
         }
         val passwordLength = remember {
             mutableStateOf(8)
@@ -70,7 +77,10 @@ fun HomePage() {
         }
 
         Column(
-            modifier = Modifier.fillMaxSize().padding(20.px),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.px)
+                .scrollBehavior(ScrollBehavior.Smooth),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -111,7 +121,8 @@ fun HomePage() {
                             })
                             if (showCopedPasswordToolTip.value) {
                                 window.setTimeout({
-                                    showCopedPasswordToolTip.value = false }, 2000)
+                                    showCopedPasswordToolTip.value = false
+                                }, 2000)
                             }
                         }
                     }
@@ -146,27 +157,31 @@ fun HomePage() {
                     Text("Password length: ${passwordLength.value}")
                     Spacer()
                     Row(
-                        modifier = Modifier.fillMaxWidth(25.percent),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        modifier = Modifier.fillMaxWidth(70.percent),
+                        horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Button(onClick = {
-                            if (passwordLength.value > 4) {
-                                passwordLength.value -= 1
-                                regeneratePassword.value = true
+                        Text("-")
+                        RangeInput(
+                            value = passwordLength.value,
+                            min = 4,
+                            max = 15,
+                            step = 1,
+                            attrs = {
+                                style {
+                                    minWidth(200.px)
+                                }
+                                onInput {
+                                    console.log("Slider value is: ${it.value}")
+                                    passwordLength.value = it.value!!.toInt()
+                                    regeneratePassword.value = true
+                                }
                             }
-                        }) {
-                            Text("-")
-                        }
-
-                        Button(onClick = {
-                            if (passwordLength.value < 15) {
-                                passwordLength.value += 1
-                                regeneratePassword.value = true
-                            }
-                        }) {
-                            Text("+")
-                        }
+                        )
+                        Text("+")
                     }
+                    Spacer()
+                    Spacer()
+                    Text("Include")
                     Spacer()
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         CheckboxInput(
