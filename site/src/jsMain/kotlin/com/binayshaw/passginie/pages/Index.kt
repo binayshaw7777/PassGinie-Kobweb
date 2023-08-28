@@ -1,14 +1,13 @@
 package com.binayshaw.passginie.pages
 
 import androidx.compose.runtime.*
+import com.binayshaw.passginie.Utils.Constants.PASSWORD_MAX_LENGTH
+import com.binayshaw.passginie.Utils.Constants.PASSWORD_MIN_LENGTH
 import com.binayshaw.passginie.Utils.Res
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
 import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.css.functions.LinearGradient
-import com.varabyte.kobweb.compose.css.functions.linearGradient
-import com.varabyte.kobweb.compose.css.functions.toImage
 import com.varabyte.kobweb.compose.dom.ElementTarget
 import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -23,8 +22,6 @@ import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.overlay.manual
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.base
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.P
@@ -215,8 +212,8 @@ fun HomePage() {
 
                         RangeInput(
                             value = passwordLength.value,
-                            min = 4,
-                            max = 15,
+                            min = PASSWORD_MIN_LENGTH,
+                            max = PASSWORD_MAX_LENGTH,
                             step = 1,
                             attrs = {
                                 style {
@@ -360,33 +357,4 @@ fun HomePage() {
             }
         }
     }
-
-}
-
-
-val ModuleBorderWrapStyle by ComponentStyle.base {
-    Modifier
-        .maxWidth(250.px)
-        .padding(3.px)
-        .position(Position.Relative)
-        .background(
-            CSSBackground(
-                image = linearGradient(
-                    LinearGradient.Direction.ToRight,
-                    Color.white,
-                    Color.lightgray
-                ).toImage()
-            )
-        )
-}
-
-val GradientBorderStyle by ComponentStyle.base {
-    Modifier
-        .border(1.px, LineStyle.Solid, Color.transparent)
-        .background(
-            CSSBackground(
-                image = linearGradient(45.deg, Color.white, Color.transparent).toImage()
-            )
-        )
-        .size(200.px)
 }
