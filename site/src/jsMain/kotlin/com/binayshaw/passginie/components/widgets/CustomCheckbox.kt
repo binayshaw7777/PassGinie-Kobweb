@@ -30,7 +30,8 @@ fun CustomCheckbox(isChecked: Boolean) {
 @Composable
 fun CustomCheckBox(
     isChecked: Boolean = false,
-    description: String?,
+    modifier: Modifier = Modifier,
+    description: String = "",
     uncheckedRes: String,
     checkedRes: String,
     onClick: (Boolean) -> Unit
@@ -41,9 +42,9 @@ fun CustomCheckBox(
         } else {
             uncheckedRes
         },
-        modifier = Modifier.onClick {
+        modifier = modifier.onClick {
             onClick(isChecked.not())
         },
-        desc = description ?: ""
+        desc = description
     )
 }

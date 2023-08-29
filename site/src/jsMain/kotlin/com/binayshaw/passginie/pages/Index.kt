@@ -6,6 +6,7 @@ import com.binayshaw.passginie.Utils.Constants.PASSWORD_MIN_LENGTH
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
 import com.binayshaw.passginie.components.widgets.CustomCheckbox
+import com.binayshaw.passginie.components.widgets.CustomRangeInputStyle
 import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.dom.ElementTarget
@@ -14,6 +15,7 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
+import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
@@ -21,6 +23,7 @@ import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.overlay.manual
+import com.varabyte.kobweb.silk.components.style.toModifier
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.P
@@ -195,45 +198,61 @@ fun HomePage() {
                         }
                     }
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(80.percent),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        P(attrs = {
-                            style {
-                                fontWeight(FontWeight.Bold)
-                                fontSize(18.px)
-                            }
-                        }) {
-                            Text("-")
-                        }
+//                    Row(
+//                        modifier = Modifier.fillMaxWidth(80.percent),
+//                        horizontalArrangement = Arrangement.SpaceAround,
+//                        verticalAlignment = Alignment.CenterVertically
+//                    ) {
+//                        P(attrs = {
+//                            style {
+//                                fontWeight(FontWeight.Bold)
+//                                fontSize(18.px)
+//                            }
+//                        }) {
+//                            Text("-")
+//                        }
 
                         RangeInput(
                             value = passwordLength.value,
                             min = PASSWORD_MIN_LENGTH,
                             max = PASSWORD_MAX_LENGTH,
                             step = 1,
-                            attrs = {
-                                style {
-                                    minWidth(400.px)
+                            attrs = CustomRangeInputStyle.toModifier()
+                                .then(Modifier.width(83.percent))
+                                .toAttrs {
+                                    onInput {
+                                        console.log("Slider value is: ${it.value}")
+                                        passwordLength.value = it.value!!.toInt()
+                                        regeneratePassword.value = true
+                                    }
                                 }
-                                onInput {
-                                    console.log("Slider value is: ${it.value}")
-                                    passwordLength.value = it.value!!.toInt()
-                                    regeneratePassword.value = true
-                                }
-                            }
                         )
-                        P(attrs = {
-                            style {
-                                fontWeight(FontWeight.Bold)
-                                fontSize(18.px)
-                            }
-                        }) {
-                            Text("+")
-                        }
-                    }
+
+//                        RangeInput(
+//                            value = passwordLength.value,
+//                            min = PASSWORD_MIN_LENGTH,
+//                            max = PASSWORD_MAX_LENGTH,
+//                            step = 1,
+//                            attrs = {
+//                                style {
+//                                    minWidth(400.px)
+//                                }
+//                                onInput {
+//                                    console.log("Slider value is: ${it.value}")
+//                                    passwordLength.value = it.value!!.toInt()
+//                                    regeneratePassword.value = true
+//                                }
+//                            }
+//                        )
+//                        P(attrs = {
+//                            style {
+//                                fontWeight(FontWeight.Bold)
+//                                fontSize(18.px)
+//                            }
+//                        }) {
+//                            Text("+")
+//                        }
+//                    }
                     Spacer()
                     Spacer()
 
