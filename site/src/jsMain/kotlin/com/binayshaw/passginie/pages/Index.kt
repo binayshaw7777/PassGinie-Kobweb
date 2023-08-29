@@ -24,6 +24,8 @@ import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.overlay.manual
+import com.varabyte.kobweb.silk.components.style.ComponentStyle
+import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
@@ -97,7 +99,7 @@ fun HomePage() {
             verticalArrangement = Arrangement.Center
         ) {
 
-            GlassBox(modifier = Modifier.fillMaxHeight(20.percent)) {
+            GlassBox(modifier = PasswordViewBoxStyle.toModifier()) {
 
                 Box(
                     modifier = Modifier
@@ -174,7 +176,7 @@ fun HomePage() {
 
             P()
 
-            GlassBox(modifier = Modifier.fillMaxHeight(50.percent)) {
+            GlassBox(modifier = EditorBoxStyle.toModifier()) {
 
                 Column(
                     modifier = Modifier.fillMaxSize().zIndex(1),
@@ -321,5 +323,33 @@ fun HomePage() {
                 }
             }
         }
+    }
+}
+
+val EditorBoxStyle by ComponentStyle {
+    base {
+        Modifier.fillMaxHeight(50.percent).fillMaxWidth(50.percent)
+    }
+
+    Breakpoint.SM {
+        Modifier.fillMaxHeight(80.percent).fillMaxWidth(95.percent)
+    }
+
+    Breakpoint.MD {
+        Modifier.fillMaxHeight(50.percent).fillMaxWidth(50.percent)
+    }
+}
+
+val PasswordViewBoxStyle by ComponentStyle {
+    base {
+        Modifier.fillMaxHeight(20.percent).fillMaxWidth(50.percent)
+    }
+
+    Breakpoint.SM {
+        Modifier.fillMaxHeight(50.percent).fillMaxWidth(95.percent)
+    }
+
+    Breakpoint.MD {
+        Modifier.fillMaxHeight(20.percent).fillMaxWidth(50.percent)
     }
 }
