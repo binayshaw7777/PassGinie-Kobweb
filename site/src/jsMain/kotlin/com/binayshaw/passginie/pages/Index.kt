@@ -42,9 +42,11 @@ fun HomePage() {
         val generatedPassword = remember {
             mutableStateOf(
                 passGenerator(
-                    8, false,
-                    false, false,
-                    false
+                    8,
+                    shouldIncludeUppercase = false,
+                    shouldIncludeLowercase = false,
+                    shouldIncludeNumbers = false,
+                    shouldIncludeSymbols = false
                 )
             )
         }
@@ -198,61 +200,22 @@ fun HomePage() {
                         }
                     }
 
-//                    Row(
-//                        modifier = Modifier.fillMaxWidth(80.percent),
-//                        horizontalArrangement = Arrangement.SpaceAround,
-//                        verticalAlignment = Alignment.CenterVertically
-//                    ) {
-//                        P(attrs = {
-//                            style {
-//                                fontWeight(FontWeight.Bold)
-//                                fontSize(18.px)
-//                            }
-//                        }) {
-//                            Text("-")
-//                        }
-
-                        RangeInput(
-                            value = passwordLength.value,
-                            min = PASSWORD_MIN_LENGTH,
-                            max = PASSWORD_MAX_LENGTH,
-                            step = 1,
-                            attrs = CustomRangeInputStyle.toModifier()
-                                .then(Modifier.width(83.percent))
-                                .toAttrs {
-                                    onInput {
-                                        console.log("Slider value is: ${it.value}")
-                                        passwordLength.value = it.value!!.toInt()
-                                        regeneratePassword.value = true
-                                    }
+                    RangeInput(
+                        value = passwordLength.value,
+                        min = PASSWORD_MIN_LENGTH,
+                        max = PASSWORD_MAX_LENGTH,
+                        step = 1,
+                        attrs = CustomRangeInputStyle.toModifier()
+                            .then(Modifier.width(83.percent))
+                            .toAttrs {
+                                onInput {
+                                    console.log("Slider value is: ${it.value}")
+                                    passwordLength.value = it.value!!.toInt()
+                                    regeneratePassword.value = true
                                 }
-                        )
+                            }
+                    )
 
-//                        RangeInput(
-//                            value = passwordLength.value,
-//                            min = PASSWORD_MIN_LENGTH,
-//                            max = PASSWORD_MAX_LENGTH,
-//                            step = 1,
-//                            attrs = {
-//                                style {
-//                                    minWidth(400.px)
-//                                }
-//                                onInput {
-//                                    console.log("Slider value is: ${it.value}")
-//                                    passwordLength.value = it.value!!.toInt()
-//                                    regeneratePassword.value = true
-//                                }
-//                            }
-//                        )
-//                        P(attrs = {
-//                            style {
-//                                fontWeight(FontWeight.Bold)
-//                                fontSize(18.px)
-//                            }
-//                        }) {
-//                            Text("+")
-//                        }
-//                    }
                     Spacer()
                     Spacer()
 
