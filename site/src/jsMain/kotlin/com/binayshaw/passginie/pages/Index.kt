@@ -3,9 +3,9 @@ package com.binayshaw.passginie.pages
 import androidx.compose.runtime.*
 import com.binayshaw.passginie.Utils.Constants.PASSWORD_MAX_LENGTH
 import com.binayshaw.passginie.Utils.Constants.PASSWORD_MIN_LENGTH
-import com.binayshaw.passginie.Utils.Res
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
+import com.binayshaw.passginie.components.widgets.CustomCheckbox
 import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.dom.ElementTarget
@@ -14,7 +14,6 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
-import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
@@ -267,15 +266,9 @@ fun HomePage() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                if (shouldIncludeUppercase.value) {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_TRUE
-                                    )
-                                } else {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_FALSE
-                                    )
-                                }
+
+                                CustomCheckbox(shouldIncludeUppercase.value)
+
                                 P(attrs = { style { fontSize(20.px) } }) {
                                     Text("Uppercase")
                                 }
@@ -290,15 +283,9 @@ fun HomePage() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                if (shouldIncludeLowercase.value) {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_TRUE
-                                    )
-                                } else {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_FALSE
-                                    )
-                                }
+
+                                CustomCheckbox(shouldIncludeLowercase.value)
+
                                 P(attrs = { style { fontSize(20.px) } }) {
                                     Text("Lowercase")
                                 }
@@ -314,15 +301,9 @@ fun HomePage() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                if (shouldIncludeNumbers.value) {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_TRUE
-                                    )
-                                } else {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_FALSE
-                                    )
-                                }
+
+                                CustomCheckbox(shouldIncludeNumbers.value)
+
                                 P(attrs = { style { fontSize(20.px) } }) {
                                     Text("Numbers")
                                 }
@@ -337,15 +318,11 @@ fun HomePage() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                if (shouldIncludeSymbols.value) {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_TRUE
-                                    )
-                                } else {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_FALSE
-                                    )
-                                }
+
+                                CustomCheckbox(
+                                    shouldIncludeSymbols.value
+                                )
+
                                 P(attrs = { style { fontSize(20.px) } }) {
                                     Text("Symbols")
                                 }
