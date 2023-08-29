@@ -3,9 +3,10 @@ package com.binayshaw.passginie.pages
 import androidx.compose.runtime.*
 import com.binayshaw.passginie.Utils.Constants.PASSWORD_MAX_LENGTH
 import com.binayshaw.passginie.Utils.Constants.PASSWORD_MIN_LENGTH
-import com.binayshaw.passginie.Utils.Res
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
+import com.binayshaw.passginie.components.widgets.CustomCheckbox
+import com.binayshaw.passginie.components.widgets.CustomRangeInputStyle
 import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.dom.ElementTarget
@@ -14,7 +15,7 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
-import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
@@ -22,6 +23,7 @@ import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.overlay.KeepPopupOpenStrategy
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.overlay.manual
+import com.varabyte.kobweb.silk.components.style.toModifier
 import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.P
@@ -196,45 +198,61 @@ fun HomePage() {
                         }
                     }
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(80.percent),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        P(attrs = {
-                            style {
-                                fontWeight(FontWeight.Bold)
-                                fontSize(18.px)
-                            }
-                        }) {
-                            Text("-")
-                        }
+//                    Row(
+//                        modifier = Modifier.fillMaxWidth(80.percent),
+//                        horizontalArrangement = Arrangement.SpaceAround,
+//                        verticalAlignment = Alignment.CenterVertically
+//                    ) {
+//                        P(attrs = {
+//                            style {
+//                                fontWeight(FontWeight.Bold)
+//                                fontSize(18.px)
+//                            }
+//                        }) {
+//                            Text("-")
+//                        }
 
                         RangeInput(
                             value = passwordLength.value,
                             min = PASSWORD_MIN_LENGTH,
                             max = PASSWORD_MAX_LENGTH,
                             step = 1,
-                            attrs = {
-                                style {
-                                    minWidth(400.px)
+                            attrs = CustomRangeInputStyle.toModifier()
+                                .then(Modifier.width(83.percent))
+                                .toAttrs {
+                                    onInput {
+                                        console.log("Slider value is: ${it.value}")
+                                        passwordLength.value = it.value!!.toInt()
+                                        regeneratePassword.value = true
+                                    }
                                 }
-                                onInput {
-                                    console.log("Slider value is: ${it.value}")
-                                    passwordLength.value = it.value!!.toInt()
-                                    regeneratePassword.value = true
-                                }
-                            }
                         )
-                        P(attrs = {
-                            style {
-                                fontWeight(FontWeight.Bold)
-                                fontSize(18.px)
-                            }
-                        }) {
-                            Text("+")
-                        }
-                    }
+
+//                        RangeInput(
+//                            value = passwordLength.value,
+//                            min = PASSWORD_MIN_LENGTH,
+//                            max = PASSWORD_MAX_LENGTH,
+//                            step = 1,
+//                            attrs = {
+//                                style {
+//                                    minWidth(400.px)
+//                                }
+//                                onInput {
+//                                    console.log("Slider value is: ${it.value}")
+//                                    passwordLength.value = it.value!!.toInt()
+//                                    regeneratePassword.value = true
+//                                }
+//                            }
+//                        )
+//                        P(attrs = {
+//                            style {
+//                                fontWeight(FontWeight.Bold)
+//                                fontSize(18.px)
+//                            }
+//                        }) {
+//                            Text("+")
+//                        }
+//                    }
                     Spacer()
                     Spacer()
 
@@ -267,15 +285,9 @@ fun HomePage() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                if (shouldIncludeUppercase.value) {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_TRUE
-                                    )
-                                } else {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_FALSE
-                                    )
-                                }
+
+                                CustomCheckbox(shouldIncludeUppercase.value)
+
                                 P(attrs = { style { fontSize(20.px) } }) {
                                     Text("Uppercase")
                                 }
@@ -290,15 +302,9 @@ fun HomePage() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                if (shouldIncludeLowercase.value) {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_TRUE
-                                    )
-                                } else {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_FALSE
-                                    )
-                                }
+
+                                CustomCheckbox(shouldIncludeLowercase.value)
+
                                 P(attrs = { style { fontSize(20.px) } }) {
                                     Text("Lowercase")
                                 }
@@ -314,15 +320,9 @@ fun HomePage() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                if (shouldIncludeNumbers.value) {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_TRUE
-                                    )
-                                } else {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_FALSE
-                                    )
-                                }
+
+                                CustomCheckbox(shouldIncludeNumbers.value)
+
                                 P(attrs = { style { fontSize(20.px) } }) {
                                     Text("Numbers")
                                 }
@@ -337,15 +337,11 @@ fun HomePage() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                if (shouldIncludeSymbols.value) {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_TRUE
-                                    )
-                                } else {
-                                    Image(
-                                        src = Res.Images.CHECKBOX_FALSE
-                                    )
-                                }
+
+                                CustomCheckbox(
+                                    shouldIncludeSymbols.value
+                                )
+
                                 P(attrs = { style { fontSize(20.px) } }) {
                                     Text("Symbols")
                                 }
