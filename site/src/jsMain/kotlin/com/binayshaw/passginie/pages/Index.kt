@@ -17,6 +17,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
+import com.varabyte.kobweb.silk.components.icons.fa.FaCheck
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
 import com.varabyte.kobweb.silk.components.layout.numColumns
@@ -126,10 +127,15 @@ fun HomePage() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
 
-                            FaCopy(modifier = Modifier.onClick {
-                                window.navigator.clipboard.writeText(generatedPassword.value)
-                                showCopedPasswordToolTip.value = true
-                            })
+                            if (showCopedPasswordToolTip.value) {
+                                FaCheck()
+                            } else {
+                                FaCopy(modifier = Modifier.onClick {
+                                    window.navigator.clipboard.writeText(generatedPassword.value)
+                                    showCopedPasswordToolTip.value = true
+                                })
+                            }
+
                             Spacer()
 
                             FaArrowRotateLeft(modifier = Modifier.onClick {
