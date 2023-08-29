@@ -3,10 +3,11 @@ package com.binayshaw.passginie.pages
 import androidx.compose.runtime.*
 import com.binayshaw.passginie.Utils.Constants.PASSWORD_MAX_LENGTH
 import com.binayshaw.passginie.Utils.Constants.PASSWORD_MIN_LENGTH
+import com.binayshaw.passginie.Utils.Res
 import com.varabyte.kobweb.core.Page
 import com.binayshaw.passginie.components.layouts.PageLayout
-import com.binayshaw.passginie.components.widgets.CustomCheckbox
-import com.binayshaw.passginie.components.widgets.CustomRangeInputStyle
+import com.binayshaw.passginie.components.styles.*
+import com.binayshaw.passginie.components.widgets.CustomCheckBox
 import com.binayshaw.passginie.components.widgets.GlassBox
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.dom.ElementTarget
@@ -17,6 +18,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.icons.fa.FaArrowRotateLeft
+import com.varabyte.kobweb.silk.components.icons.fa.FaCheck
 import com.varabyte.kobweb.silk.components.icons.fa.FaCopy
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
 import com.varabyte.kobweb.silk.components.layout.numColumns
@@ -96,7 +98,7 @@ fun HomePage() {
             verticalArrangement = Arrangement.Center
         ) {
 
-            GlassBox(modifier = Modifier.fillMaxHeight(20.percent)) {
+            GlassBox(modifier = PasswordViewBoxStyle.toModifier()) {
 
                 Box(
                     modifier = Modifier
@@ -114,27 +116,30 @@ fun HomePage() {
                     ) {
                         P(attrs = {
                             style {
-                                fontSize(24.px)
+
                             }
                         }) {
                             Text(generatedPassword.value)
                         }
 
                         Row(
-                            modifier = Modifier.fillMaxWidth(10.percent),
-                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = AccessibilityButtonStyle.toModifier().then(Modifier.fillMaxWidth(20.percent)),
+                            horizontalArrangement = Arrangement.SpaceAround,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
 
-                            FaCopy(modifier = Modifier.onClick {
-                                window.navigator.clipboard.writeText(generatedPassword.value)
-                                showCopedPasswordToolTip.value = true
-                            })
-                            Spacer()
+                            if (showCopedPasswordToolTip.value) {
+                                FaCheck(modifier = AccessibilityButtonStyle.toModifier())
+                            } else {
+                                FaCopy(modifier = AccessibilityButtonStyle.toModifier().then(Modifier.onClick {
+                                    window.navigator.clipboard.writeText(generatedPassword.value)
+                                    showCopedPasswordToolTip.value = true
+                                }))
+                            }
 
-                            FaArrowRotateLeft(modifier = Modifier.onClick {
+                            FaArrowRotateLeft(modifier = AccessibilityButtonStyle.toModifier().then(Modifier.onClick {
                                 regeneratePassword.value = true
-                            })
+                            }))
                             if (showCopedPasswordToolTip.value) {
                                 window.setTimeout({
                                     showCopedPasswordToolTip.value = false
@@ -168,7 +173,7 @@ fun HomePage() {
 
             P()
 
-            GlassBox(modifier = Modifier.fillMaxHeight(50.percent)) {
+            GlassBox(modifier = EditorBoxStyle.toModifier()) {
 
                 Column(
                     modifier = Modifier.fillMaxSize().zIndex(1),
@@ -184,7 +189,6 @@ fun HomePage() {
                         P(attrs = {
                             style {
                                 padding(5.px)
-                                fontSize(20.px)
                             }
                         }) {
                             Text("Password length:")
@@ -192,7 +196,6 @@ fun HomePage() {
                         P(attrs = {
                             style {
                                 padding(5.px)
-                                fontSize(20.px)
                                 fontWeight(FontWeight.Bold)
                             }
                         }) {
@@ -217,7 +220,6 @@ fun HomePage() {
                     )
 
                     Spacer()
-                    Spacer()
 
                     Row(
                         modifier = Modifier.fillMaxWidth(83.percent),
@@ -225,7 +227,7 @@ fun HomePage() {
                     ) {
                         P(attrs = {
                             style {
-                                fontSize(20.px)
+
                             }
                         }) {
                             Text("Include")
@@ -233,14 +235,14 @@ fun HomePage() {
                     }
 
                     SimpleGrid(
-                        numColumns(1, sm = 1, md = 2, lg = 2, xl = 2),
+                        numColumns(1, sm = 1, md = 1, lg = 2, xl = 2),
                         modifier = Modifier.fillMaxWidth(90.percent)
                     ) {
 
-                        Column(modifier = Modifier.padding(0.px, 15.px)) {
+                        Column(modifier = Modifier.margin(0.px, 15.px)) {
 
                             Row(
-                                modifier = Modifier.fillMaxWidth(65.percent)
+                                modifier = Modifier.fillMaxWidth(65.percent).margin(0.px, 5.px)
                                     .onClick {
                                         shouldIncludeUppercase.value = shouldIncludeUppercase.value.not()
                                         regeneratePassword.value = true
@@ -249,15 +251,22 @@ fun HomePage() {
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
 
-                                CustomCheckbox(shouldIncludeUppercase.value)
+                                CustomCheckBox(
+                                    isChecked = shouldIncludeUppercase.value,
+                                    modifier = CheckBoxStyle.toModifier(),
+                                    uncheckedRes = Res.Images.CHECKBOX_FALSE,
+                                    checkedRes = Res.Images.CHECKBOX_TRUE,
+                                    onClick = {
+                                        shouldIncludeUppercase.value = it
+                                    })
 
-                                P(attrs = { style { fontSize(20.px) } }) {
+                                P(attrs = { style { } }) {
                                     Text("Uppercase")
                                 }
                             }
 
                             Row(
-                                modifier = Modifier.fillMaxWidth(65.percent)
+                                modifier = Modifier.fillMaxWidth(65.percent).margin(0.px, 5.px)
                                     .onClick {
                                         shouldIncludeLowercase.value = shouldIncludeLowercase.value.not()
                                         regeneratePassword.value = true
@@ -266,16 +275,23 @@ fun HomePage() {
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
 
-                                CustomCheckbox(shouldIncludeLowercase.value)
+                                CustomCheckBox(
+                                    isChecked = shouldIncludeLowercase.value,
+                                    modifier = CheckBoxStyle.toModifier(),
+                                    uncheckedRes = Res.Images.CHECKBOX_FALSE,
+                                    checkedRes = Res.Images.CHECKBOX_TRUE,
+                                    onClick = {
+                                        shouldIncludeLowercase.value = it
+                                    })
 
-                                P(attrs = { style { fontSize(20.px) } }) {
+                                P(attrs = { style { } }) {
                                     Text("Lowercase")
                                 }
                             }
                         }
-                        Column(modifier = Modifier.padding(0.px, 15.px)) {
+                        Column(modifier = Modifier.margin(0.px, 15.px)) {
                             Row(
-                                modifier = Modifier.fillMaxWidth(65.percent)
+                                modifier = Modifier.fillMaxWidth(65.percent).margin(0.px, 5.px)
                                     .onClick {
                                         shouldIncludeNumbers.value = shouldIncludeNumbers.value.not()
                                         regeneratePassword.value = true
@@ -284,15 +300,22 @@ fun HomePage() {
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
 
-                                CustomCheckbox(shouldIncludeNumbers.value)
+                                CustomCheckBox(
+                                    isChecked = shouldIncludeNumbers.value,
+                                    modifier = CheckBoxStyle.toModifier(),
+                                    uncheckedRes = Res.Images.CHECKBOX_FALSE,
+                                    checkedRes = Res.Images.CHECKBOX_TRUE,
+                                    onClick = {
+                                        shouldIncludeNumbers.value = it
+                                    })
 
-                                P(attrs = { style { fontSize(20.px) } }) {
+                                P(attrs = { style { } }) {
                                     Text("Numbers")
                                 }
                             }
 
                             Row(
-                                modifier = Modifier.fillMaxWidth(65.percent)
+                                modifier = Modifier.fillMaxWidth(65.percent).margin(0.px, 5.px)
                                     .onClick {
                                         shouldIncludeSymbols.value = shouldIncludeSymbols.value.not()
                                         regeneratePassword.value = true
@@ -301,11 +324,16 @@ fun HomePage() {
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
 
-                                CustomCheckbox(
-                                    shouldIncludeSymbols.value
-                                )
+                                CustomCheckBox(
+                                    isChecked = shouldIncludeSymbols.value,
+                                    modifier = CheckBoxStyle.toModifier(),
+                                    uncheckedRes = Res.Images.CHECKBOX_FALSE,
+                                    checkedRes = Res.Images.CHECKBOX_TRUE,
+                                    onClick = {
+                                        shouldIncludeSymbols.value = it
+                                    })
 
-                                P(attrs = { style { fontSize(20.px) } }) {
+                                P(attrs = { style { } }) {
                                     Text("Symbols")
                                 }
                             }
