@@ -1,6 +1,6 @@
 site:
-  title: "PassGinie"
-  routePrefix: "PassGinie-Kobweb"
+  title: "PassGenie"
+  routePrefix: "PassGenie"
 
 server:
   files:
