@@ -256,7 +256,9 @@ fun HomePage() {
                                     modifier = CheckBoxStyle.toModifier(),
                                     uncheckedRes = Res.Images.CHECKBOX_FALSE,
                                     checkedRes = Res.Images.CHECKBOX_TRUE,
-                                    onClick = {})
+                                    onClick = {
+                                        shouldIncludeUppercase.value = it
+                                    })
 
                                 P(attrs = { style { } }) {
                                     Text("Uppercase")
@@ -278,7 +280,9 @@ fun HomePage() {
                                     modifier = CheckBoxStyle.toModifier(),
                                     uncheckedRes = Res.Images.CHECKBOX_FALSE,
                                     checkedRes = Res.Images.CHECKBOX_TRUE,
-                                    onClick = {})
+                                    onClick = {
+                                        shouldIncludeLowercase.value = it
+                                    })
 
                                 P(attrs = { style { } }) {
                                     Text("Lowercase")
@@ -301,7 +305,9 @@ fun HomePage() {
                                     modifier = CheckBoxStyle.toModifier(),
                                     uncheckedRes = Res.Images.CHECKBOX_FALSE,
                                     checkedRes = Res.Images.CHECKBOX_TRUE,
-                                    onClick = {})
+                                    onClick = {
+                                        shouldIncludeNumbers.value = it
+                                    })
 
                                 P(attrs = { style { } }) {
                                     Text("Numbers")
@@ -323,7 +329,9 @@ fun HomePage() {
                                     modifier = CheckBoxStyle.toModifier(),
                                     uncheckedRes = Res.Images.CHECKBOX_FALSE,
                                     checkedRes = Res.Images.CHECKBOX_TRUE,
-                                    onClick = {})
+                                    onClick = {
+                                        shouldIncludeSymbols.value = it
+                                    })
 
                                 P(attrs = { style { } }) {
                                     Text("Symbols")
