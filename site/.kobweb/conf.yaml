@@ -1,5 +1,6 @@
 site:
   title: "PassGinie"
+  routePrefix: "PassGinie"
 
 server:
   files:
@@ -9,6 +10,6 @@ server:
       api: "build/libs/passginie.jar"
     prod:
       script: "build/distributions/passginie.js"
-      siteRoot: ".kobweb/site"
+      siteRoot: "../docs"
 
   port: 8080
