@@ -14,7 +14,7 @@ version = "1.0-SNAPSHOT"
 kobweb {
     app {
         index {
-            description.set("Powered by Kobweb")
+            description.set("PassGinie is a Password generator site developed using Kotlin with the help of Kobweb Framework")
             head.add {
                 link(rel = "preconnect", href = "https://fonts.googleapis.com")
                 link(rel = "preconnect", href = "https://fonts.gstatic.com") { attributes["crossorigin"] = "" }
