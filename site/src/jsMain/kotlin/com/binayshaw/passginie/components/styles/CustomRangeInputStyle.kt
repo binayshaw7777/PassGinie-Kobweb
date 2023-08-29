@@ -1,4 +1,4 @@
-package com.binayshaw.passginie.components.widgets
+package com.binayshaw.passginie.components.styles
 
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.styleModifier
