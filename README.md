@@ -18,19 +18,11 @@ PassGenie is a delightful password generator web application built using **[Kotl
 - **Include Numbers**: Add numbers to your password.
 - **Include Symbols**: Spice up your password with special symbols.
 
-## How to Use PassGenie
-
-1. Visit the PassGenie website by [Clicking Here](https://binayshaw7777.github.io/PassGinie-Kobweb/).
-2. Adjust the password criteria using the provided options.
-3. Click the "Generate Password" button to create a password that fits your specifications.
-4. You can regenerate the password as many times as you want until you find the perfect one.
-5. Click the "Copy to Clipboard" button to easily save your generated password.
-
 ## What else?
 
 - **Quick and Secure**: PassGenie allows you to create strong and secure passwords in seconds.
 - **Customizable**: Tailor your passwords to meet your specific requirements.
-- **Fun and Easy**: Have fun generating unique passwords for your accounts.
+- **Fun and Easy**: Have fun generating unique account passwords.
 - **Clipboard Support**: Copy passwords to your clipboard with a single click.
 
 ## Tech Stack 🛠️
