@@ -2,11 +2,27 @@
 
 [![Preview](https://github.com/binayshaw7777/PassGinie-Kobweb/assets/62587060/97b00bed-90c9-428a-bd48-92fbda0a717b)](https://binayshaw7777.github.io/PassGinie-Kobweb/)
 
-## [Visit Site](https://binayshaw7777.github.io/PassGinie-Kobweb/)
+<p align="center">
+  <img alt="Kotlin" src="https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white"/></a>
+  <img alt="Figma" src="https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white"/></a>
+  <img alt="Github Pages" src="https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white"/></a>
+  <img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/></a>
+  <img alt="HTML" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white"/></a>
+  <img alt="CSS" src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white"/></a>
+  <img alt="IntelliJ" src="https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white"/></a>
+  <a href="https://github.com/binayshaw7777/PassGinie-Kobweb/stargazers">
+      <img src="https://img.shields.io/github/stars/binayshaw7777/PassGinie-Kobweb?color=ffff00&style=for-the-badge"/>
+  </a>
+  <a href="https://hits.sh/github.com/binayshaw7777/PassGinie-Kobweb">
+      <img alt="Hits" src="https://hits.sh/github.com/binayshaw7777/PassGinie-Kobweb.svg?style=for-the-badge&label=Views&extraCount=7500&color=ff3f6f"/>
+  </a>
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/binayshaw7777/PassGinie-Kobweb?style=for-the-badge">
+  </br>
+</p>
 
-Generate strong, secure, and fun passwords effortlessly with PassGenie! 😃
+<!--## Generate strong, secu?re, and fun passwords effortlessly with [PassGenie](https://binayshaw7777.github.io/PassGinie-Kobweb/)! 😃-->
 
-## About PassGenie
+## About [PassGenie](https://binayshaw7777.github.io/PassGinie-Kobweb/)
 
 PassGenie is a delightful password generator web application built using **[Kotlin](https://kotlinlang.org/)** and the powerful **[Kobweb](https://kobweb.varabyte.com/)**. It's a side project created for fun and experimentation. PassGenie allows you to generate passwords that meet your specific criteria, making it easy to create passwords that are both secure and memorable.
 
